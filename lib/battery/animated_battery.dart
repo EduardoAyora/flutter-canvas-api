@@ -55,13 +55,44 @@ class _AnimatedBatteryState extends State<AnimatedBattery> {
   Widget build(BuildContext context) {
     return Column(
       mainAxisSize: MainAxisSize.min,
-      crossAxisAlignment: CrossAxisAlignment.stretch,
+      // crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        CustomPaint(
-          painter: BatteryPainter(charge: value),
+        Expanded(
+          flex: 1,
+          child: Container(
+            width: double.infinity,
+            child: CustomPaint(
+              painter: BatteryPainter(charge: value),
+            ),
+          ),
         ),
-        TextButton(onPressed: emptyBatery, child: Text('Vaciar')),
-        TextButton(onPressed: fillBatery, child: Text('Llenar')),
+        Container(
+          padding: EdgeInsets.all(5),
+          child: Row(
+            children: [
+              Expanded(
+                child: TextButton(
+                  onPressed: emptyBatery,
+                  child: Text('Vaciar'),
+                  style: TextButton.styleFrom(
+                      primary: Colors.white,
+                      textStyle: const TextStyle(fontSize: 20),
+                      backgroundColor: Colors.red),
+                ),
+              ),
+              Expanded(
+                child: TextButton(
+                  onPressed: fillBatery,
+                  child: Text('Llenar'),
+                  style: TextButton.styleFrom(
+                      primary: Colors.white,
+                      textStyle: const TextStyle(fontSize: 20),
+                      backgroundColor: Colors.green),
+                ),
+              ),
+            ],
+          ),
+        ),
       ],
     );
   }
