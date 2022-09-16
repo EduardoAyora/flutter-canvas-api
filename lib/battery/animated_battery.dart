@@ -26,48 +26,43 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-
 import 'battery_painter.dart';
 import 'package:flutter/material.dart';
 
 class AnimatedBattery extends StatefulWidget {
-
   const AnimatedBattery({Key? key}) : super(key: key);
 
   @override
   _AnimatedBatteryState createState() => _AnimatedBatteryState();
 }
 
-class _AnimatedBatteryState extends State<AnimatedBattery>
-    with SingleTickerProviderStateMixin {
-  final duration = const Duration(seconds: 5);
-  late AnimationController _ctrl;
+class _AnimatedBatteryState extends State<AnimatedBattery> {
+  double value = 0.5;
 
-  @override
-  void initState() {
-    _ctrl = AnimationController(duration: duration, vsync: this)
-      ..addListener(() => setState(() {}))
-      ..forward()
-      ..addStatusListener((status) {
-        if (status == AnimationStatus.completed) {
-          _ctrl.reverse();
-        } else if (status == AnimationStatus.dismissed) {
-          _ctrl.forward();
-        }
-      });
-    super.initState();
+  void emptyBatery() {
+    setState(() {
+      value = 0;
+    });
+  }
+
+  void fillBatery() {
+    setState(() {
+      value = 1;
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    return CustomPaint(
-      painter: BatteryPainter(charge: _ctrl.value),
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        CustomPaint(
+          painter: BatteryPainter(charge: value),
+        ),
+        TextButton(onPressed: emptyBatery, child: Text('Vaciar')),
+        TextButton(onPressed: fillBatery, child: Text('Llenar')),
+      ],
     );
-  }
-
-  @override
-  void dispose() {
-    _ctrl.dispose();
-    super.dispose();
   }
 }
